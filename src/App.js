@@ -9,7 +9,7 @@ function App() {
   return (
     <Routes>
       <Route path="/cart-preview" element={<Checkout />} />
-
+      <h1>Hii</h1>
     </Routes>
   );
 }
