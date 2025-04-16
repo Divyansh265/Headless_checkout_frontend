@@ -4,10 +4,12 @@ import Checkout from './Pages/Checkout';
 
 function App() {
   return (
-    <>
-      <h1>h11</h1>
-      <Checkout />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/checkout" element={<Checkout />} />
+        {/* Add other routes here if needed */}
+      </Routes>
+    </Router>
   );
 }
 

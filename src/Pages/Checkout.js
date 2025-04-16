@@ -4,9 +4,10 @@ import { useLocation } from 'react-router-dom';
 const Checkout = () => {
     const [cartData, setCartData] = useState(null);
     const [loading, setLoading] = useState(true);
-    //   const location = useLocation();
-    //  const token = new URLSearchParams(location.search).get('token'); // Get token from query params
-    const token = `Z2NwLXVzLWVhc3QxOjAxSlJGRDlHRDcwRzQxNUhTQTZRUk02TTU1?key=6fff473dace8ec0a9a0d52a4329176f1`;
+
+    const location = useLocation();
+    const token = new URLSearchParams(location.search).get('token'); // Get token from query params
+
     useEffect(() => {
         if (token) {
             const fetchCartData = async () => {
