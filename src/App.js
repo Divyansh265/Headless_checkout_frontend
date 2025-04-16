@@ -5,12 +5,9 @@ import Checkout from './Pages/Checkout';
 function App() {
   return (
     <Router>
-      <>
-        <h1>Checkout</h1>
-        <Routes>
-          <Route path="/cart-preview" element={<Checkout />} />
-        </Routes>
-      </>
+      <Routes>
+        <Route path="/checkout" element={<Checkout />} />
+      </Routes>
     </Router>
   );
 }
