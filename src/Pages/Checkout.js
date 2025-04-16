@@ -6,7 +6,7 @@ const Checkout = () => {
     const [loading, setLoading] = useState(true);
     //   const location = useLocation();
     //  const token = new URLSearchParams(location.search).get('token'); // Get token from query params
-    const token = `Z2NwLXVzLWVhc3QxOjAxSlJGRDlHRDcwRzQxNUhTQTZRUk02TTU1?key=6fff473dace8ec0a9a0d52a4329176f1`;
+    const token = `Z2NwLXVzLWVhc3QxOjAxSlJaMUJTS0JKVlNDMFhEQTdLQVFENVdH?key=ecc4f5c18366882c8d99e6222c9a83e3`;
     useEffect(() => {
         if (token) {
             const fetchCartData = async () => {
