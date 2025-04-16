@@ -6,7 +6,7 @@ function App() {
   return (
     <Router>
       <>
-        <h1>Hii</h1>
+        <h1>Checkout</h1>
         <Routes>
           <Route path="/cart-preview" element={<Checkout />} />
         </Routes>

@@ -1,21 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 function Checkout() {
-    const [searchParams] = useSearchParams();
     const [cartData, setCartData] = useState(null);
-    const token = searchParams.get('token');
 
     useEffect(() => {
-        if (token) {
-            fetch(`https://headless-checkout-backend.onrender.com/api/cart-data/${token}`)
-                .then(res => res.json())
-                .then(data => {
-                    setCartData(data);
-                })
-                .catch(err => console.error('Failed to fetch cart data:', err));
-        }
-    }, [token]);
+        fetch(`https://headless-checkout-backend.onrender.com/api/cart-data`)
+            .then(res => res.json())
+            .then(data => {
+                setCartData(data.cart); // Access the cart object directly
+            })
+            .catch(err => console.error('Failed to fetch cart data:', err));
+    }, []);
 
     if (!cartData) return <p>Loading...</p>;
 
