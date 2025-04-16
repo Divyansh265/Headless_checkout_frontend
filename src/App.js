@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Checkout from './Pages/Checkout'; // Assuming Checkout is the component for displaying the cart
+import Checkout from './Pages/Checkout';
 
 function App() {
   return (

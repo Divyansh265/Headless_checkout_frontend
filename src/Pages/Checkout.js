@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const Checkout = () => {
-    const [searchParams] = useSearchParams();
     const [cartData, setCartData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const token = searchParams.get("token");
+    const location = useLocation();
+    const token = new URLSearchParams(location.search).get('token'); // Get token from query params
 
     useEffect(() => {
-        const fetchCartData = async () => {
-            if (!token) return;
+        if (token) {
+            const fetchCartData = async () => {
+                try {
+                    const response = await fetch(`https://headless-checkout-backend.onrender.com/api/cart-data?token=${token}`);
+                    const data = await response.json();
+                    setCartData(data);
+                } catch (error) {
+                    console.error("Error fetching cart data:", error);
+                } finally {
+                    setLoading(false);
+                }
+            };
 
-            try {
-                const response = await fetch(`https://headless-checkout-backend.onrender.com/api/cart-data?token=${encodeURIComponent(token)}`);
-                const data = await response.json();
-                setCartData(data);
-            } catch (error) {
-                console.error("Error fetching cart data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCartData();
+            fetchCartData();
+        }
     }, [token]);
 
     if (loading) return <p>Loading cart...</p>;
