@@ -11,7 +11,7 @@ const Checkout = () => {
         if (token) {
             const fetchCartData = async () => {
                 try {
-                    const response = await fetch(`https://headless-checkout-backend.onrender.com/api/cart-data?token=${token}`);
+                    const response = await fetch(`https://headless-checkout-backend.onrender.com/api/cart-data?token=Z2NwLXVzLWVhc3QxOjAxSlJGRDlHRDcwRzQxNUhTQTZRUk02TTU1?key=6fff473dace8ec0a9a0d52a4329176f1`);
                     const data = await response.json();
                     setCartData(data);
                 } catch (error) {
