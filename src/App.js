@@ -1,16 +1,21 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
 import Checkout from './Pages/Checkout';
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/checkout" element={<Checkout />} />
+  )
+);
+
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/checkout" element={<Checkout />} />
-        {/* Add other routes here if needed */}
-      </Routes>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
+
