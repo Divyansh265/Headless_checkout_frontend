@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './Checkout.css';
+
 const Checkout = () => {
     const [cartData, setCartData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -52,23 +53,25 @@ const Checkout = () => {
     if (!cartData) return <p>No cart found.</p>;
 
     return (
-        <div>
+        <div className="checkout-container">
             <h2>Checkout</h2>
             <p><strong>Total:</strong> ${(cartData.total_price / 100).toFixed(2)}</p>
             <ul>
                 {cartData.items.map(item => (
-                    <li key={item.id}>
-                        <img src={item.image} alt={item.title} width="50" />
-                        <p>{item.title}</p>
-                        <p>Qty: {item.quantity}</p>
-                        <p>Price: ${(item.price / 100).toFixed(2)}</p>
+                    <li key={item.id} className="cart-item">
+                        <img src={item.image} alt={item.title} width="60" />
+                        <div>
+                            <p>{item.title}</p>
+                            <p>Qty: {item.quantity}</p>
+                            <p>Price: ${(item.price / 100).toFixed(2)}</p>
+                        </div>
                     </li>
                 ))}
             </ul>
-            <button onClick={handlePlaceOrder} style={{ padding: '10px 20px', marginTop: '20px' }}>
+            <button onClick={handlePlaceOrder} className="place-order-btn">
                 Place Order
             </button>
-            {orderStatus && <p style={{ marginTop: '10px' }}>{orderStatus}</p>}
+            {orderStatus && <p className="status-message">{orderStatus}</p>}
         </div>
     );
 };

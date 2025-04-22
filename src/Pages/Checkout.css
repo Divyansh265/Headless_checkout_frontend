@@ -34,7 +34,7 @@
     display: block;
     width: 100%;
     padding: 12px;
-    background-color: #0070f3;
+    background-color: #818283;
     color: white;
     border: none;
     border-radius: 8px;
@@ -45,7 +45,7 @@
 }
 
 .place-order-btn:hover {
-    background-color: #005bb5;
+    background-color: #525253;
 }
 
 .status-message {
