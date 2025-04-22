@@ -68,10 +68,13 @@ const Checkout = () => {
                     </li>
                 ))}
             </ul>
-            <button onClick={handlePlaceOrder} className="place-order-btn">
-                Place Order
-            </button>
+            {!orderStatus && (
+                <button onClick={handlePlaceOrder} className="place-order-btn">
+                    Place Order
+                </button>
+            )}
             {orderStatus && <p className="status-message">{orderStatus}</p>}
+
         </div>
     );
 };
