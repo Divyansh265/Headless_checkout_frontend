@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './Checkout.css';
 
 const Checkout = () => {
     const [cartData, setCartData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [placingOrder, setPlacingOrder] = useState(false);
     const [orderStatus, setOrderStatus] = useState(null);
     const location = useLocation();
-    const navigate = useNavigate();
     const token = new URLSearchParams(location.search).get('token');
 
     useEffect(() => {
@@ -30,7 +28,6 @@ const Checkout = () => {
     }, [token]);
 
     const handlePlaceOrder = async () => {
-        setPlacingOrder(true);
         try {
             const response = await fetch('https://headless-checkout-backend.onrender.com/create-order', {
                 method: 'POST',
@@ -43,17 +40,12 @@ const Checkout = () => {
             const result = await response.json();
             if (response.ok) {
                 setOrderStatus(`✅ Order created! ID: ${result.order.id}`);
-                setTimeout(() => {
-                    navigate(`/success?order_id=${result.order.id}`);
-                }, 3000);
             } else {
                 setOrderStatus(`❌ Order creation failed: ${result.error || 'Unknown error'}`);
             }
         } catch (error) {
             console.error("Error placing order:", error);
             setOrderStatus("❌ Failed to place order");
-        } finally {
-            setPlacingOrder(false);
         }
     };
 
@@ -76,15 +68,13 @@ const Checkout = () => {
                     </li>
                 ))}
             </ul>
-
-            {!orderStatus && !placingOrder && (
+            {!orderStatus && (
                 <button onClick={handlePlaceOrder} className="place-order-btn">
                     Place Order
                 </button>
             )}
-
-            {placingOrder && <p>Placing your order...</p>}
             {orderStatus && <p className="status-message">{orderStatus}</p>}
+
         </div>
     );
 };
