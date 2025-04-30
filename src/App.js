@@ -1,15 +1,20 @@
-import React from 'react';
+import React from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Checkout from './Pages/Checkout';
+import Checkout from "./Pages/Checkout";
+import Home from "./Pages/Home";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/checkout" element={<Checkout />} />
+    <>
+      <Route path="/" element={<Home />} /> 
+      <Route path="/checkout" element={<Checkout />} /> 
+    </>
   )
 );
 
@@ -18,4 +23,3 @@ function App() {
 }
 
 export default App;
-
