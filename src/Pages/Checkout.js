@@ -19,6 +19,7 @@ const Checkout = () => {
             `https://headless-checkout-backend.onrender.com/api/cart-data?token=${token}`
           );
           const data = await response.json();
+          console.log("Data", data);
           setCartData(data);
         } catch (error) {
           console.error("Error fetching cart data:", error);
@@ -45,6 +46,7 @@ const Checkout = () => {
       );
 
       const result = await response.json();
+
       if (response.ok) {
         setOrderStatus(`✅ Order created! ID: ${result.order.id}`);
       } else {
@@ -71,31 +73,38 @@ const Checkout = () => {
         <ul>
           {cartData.items.map((item) => (
             <li key={item.id} className="cart-item">
-              
-                <img
-                  className="cart-product-img"
-                  src={item.image}
-                  alt={item.title}
-                  width="60"
-                />
+              <img
+                className="cart-product-img"
+                src={item.image}
+                alt={item.title}
+              />
 
-                <div className="cart-product-data">
-                  <p className="cart-product-item-name">{item.title}</p>
-                  <p className="cart-product-item-quantity"> Qty: {item.quantity}</p>
-                  <p className="cart-product-item-price">
-                  Price: ${(item.price / 100).toFixed(2)}
-                </p>
+              <div className="cart-product-data">
+                <div>
+                  <p className="cart-product-item-name">{item.product_title}</p>
+                  <p className="cart-product-item-quantity">
+                    Qty: {item.quantity}
+                  </p>
+                  <p className="cart-product-variant">{item.variant_title}</p>
+                </div>
+                <div>
+                  <p className="cart-product-item-price"> {cartData.currency} {(item.price / 100).toFixed(2)} </p>
+                </div>
               </div>
             </li>
           ))}
         </ul>
 
-        <p>
+        <p className="total">
           <strong>Total:</strong> ${(cartData.total_price / 100).toFixed(2)}
         </p>
 
         <div className="discount-codes">
-          <input className="discount-feild" type="text" placeholder="Discount code or gift card" />
+          <input
+            className="discount-feild"
+            type="text"
+            placeholder="Discount code or gift card"
+          />
           <button className="discount-apply-btn">Apply</button>
         </div>
 
