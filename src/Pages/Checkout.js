@@ -13,6 +13,7 @@ const Checkout = () => {
   const [discountValue, setDiscountValue] = useState(null);
   const location = useLocation();
   const [discountTitle, setDiscountTitle] = useState(null);
+  const [discountError, setDiscountError] = useState(false);
 
   // const token = new URLSearchParams(location.search).get('token');
   const token =
@@ -54,18 +55,23 @@ const Checkout = () => {
         }
       );
       const result = await response.json();
-      console.log(result)
+      console.log(result);
       console.log("Discount price rule :", result.priceRule);
       setDiscountValue(result.priceRule.value);
       setDiscountTitle(result.priceRule.title);
-      if (response.ok) {
-        setDiscountStatus(`Discount applied: ${result.priceRule.title}`);
+      if (response.ok && result?.priceRule) {
+        setDiscountValue(result.priceRule.value);
+        setDiscountTitle(result.priceRule.title);
+        setDiscountStatus(result.priceRule.title);
+        setDiscountError(false);
       } else {
-        setDiscountStatus(`Failed: ${result.error}`);
+        setDiscountStatus(result.error || "Invalid code");
+        setDiscountError(true);
       }
     } catch (error) {
       console.error("Error applying discount:", error);
       setDiscountStatus("Error applying discount");
+      setDiscountError(true);
     }
   };
 
@@ -147,7 +153,7 @@ const Checkout = () => {
 
         <div className="discount-codes">
           <input
-            className="discount-feild"
+            className={`discount-field ${discountError ? "input-error" : ""}`}
             type="text"
             placeholder="Discount code or gift card"
             value={discountCode}
@@ -158,18 +164,26 @@ const Checkout = () => {
           </button>
 
           <div className="remove-discount-sec">
-            {discountStatus ? (
-              <button className="remove-discount-btn" onClick={removeDiscount}>
-                <p>{discountStatus}</p>
-               
-              </button>
-            ) : null}
+
+            {discountError ? (
+              <p style={{ color: "red" }}>Enter a valid discount code</p>
+            ) : (
+              discountValue &&
+              discountTitle && (
+                <p>
+                  {discountTitle}{" "}
+                  <span className="remove-icon" onClick={removeDiscount}>
+                    ✖
+                  </span>
+                </p>
+              )
+            )}
           </div>
         </div>
 
         <div className="checkout-item-count">
           <p>
-            Subtotal: {cartData.item_count ? cartData.item_count : "No items"}{" "}
+            <b>Subtotal</b> : {cartData.item_count ? cartData.item_count : "No items"}{" "}
             items
           </p>
           <p>
@@ -177,8 +191,20 @@ const Checkout = () => {
           </p>
         </div>
 
+        <div className="checkout-discount-count">
+          {discountError
+            ? ""
+            : discountValue &&
+              discountTitle && (
+                <>
+                  <p>Discount :</p>
+                  <p>{discountValue != null ? Number(discountValue) : ""}</p>
+                </>
+              )}
+        </div>
+
         <div className="total">
-          <p>Total:</p>
+          <p>Total :</p>
           {/* <p>{cartData.currency} {(cartData.total_price / 100).toFixed(2)} {discountValue} </p> */}
           <p>
             {cartData.currency}{" "}

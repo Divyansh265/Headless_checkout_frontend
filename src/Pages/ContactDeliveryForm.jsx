@@ -32,7 +32,6 @@ const ContactDeliveryForm = () => {
   return (
     <div className="contact-form">
       <form onSubmit={handleSubmit}>
-
         <div className="email-section">
           <h2>Contact</h2>
           <div className="form-group email">
@@ -46,42 +45,38 @@ const ContactDeliveryForm = () => {
             />
           </div>
           <div className="form-group checkbox">
-          <input
-            type="checkbox"
-            id="newsOffers"
-            name="newsOffers"
-            checked={formData.newsOffers}
-            onChange={handleChange}
-          />
-          <label htmlFor="newsOffers">Email me with news and offers</label>
-         </div>
+            <input
+              type="checkbox"
+              id="newsOffers"
+              name="newsOffers"
+              checked={formData.newsOffers}
+              onChange={handleChange}
+            />
+            <label htmlFor="newsOffers">Email me with news and offers</label>
+          </div>
         </div>
 
-        
+        <div className="delivery-section">
+          <h3>Delivery</h3>
 
-<div className="delivery-section">
-        <h3>Delivery</h3>
-
-        <div className="form-group">
-          <label htmlFor="country">Country/Region</label>
-          <select
-            id="country"
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-          >
-            <option value="Kuwait">Kuwait</option>
-            <option value="Saudi Arabia">Saudi Arabia</option>
-            <option value="UAE">United Arab Emirates</option>
-            {/* Add more countries as needed */}
-          </select>
+          <div className="form-group">
+            <label htmlFor="country">Country/Region</label>
+            <select
+              id="country"
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
+            >
+              <option value="Kuwait">Kuwait</option>
+              <option value="Saudi Arabia">Saudi Arabia</option>
+              <option value="UAE">United Arab Emirates</option>
+              {/* Add more countries as needed */}
+            </select>
+          </div>
         </div>
-        </div>
-
 
         <div className="name-fields-section">
           <div className="form-group">
-            
             <input
               type="text"
               id="firstName"
@@ -94,7 +89,6 @@ const ContactDeliveryForm = () => {
           </div>
 
           <div className="form-group">
-            
             <input
               type="text"
               id="lastName"
@@ -107,76 +101,76 @@ const ContactDeliveryForm = () => {
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="address2">Apartment, suite, etc. (optional)</label>
-          <input
-            type="text"
-            id="address2"
-            name="address2"
-            value={formData.address2}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="address-fields">
+        <div className="address-secion">
           <div className="form-group">
-            <label htmlFor="postalCode">Postal code (optional)</label>
             <input
               type="text"
-              id="postalCode"
-              name="postalCode"
-              value={formData.postalCode}
+              id="address"
+              name="address"
+              value={formData.address}
               onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="city">City</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
+              placeholder="Address"
               required
             />
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="governorate">Governorate</label>
-          <input
-            type="text"
-            id="governorate"
-            name="governorate"
-            value={formData.governorate}
-            onChange={handleChange}
-            required
-          />
+        <div className="address-secion-2">
+          <div className="form-group">
+            <input
+              type="text"
+              id="address2"
+              name="address2"
+              value={formData.address2}
+              placeholder="Apartment, suite, etc. (optional)"
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="phone">Phone</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-          />
+        <div className="postalCode-section">
+          <div className="address-section">
+            <div className="address-fields">
+              <div className="form-group">
+                <input
+                  type="text"
+                  id="postalCode"
+                  name="postalCode"
+                  value={formData.postalCode}
+                  placeholder="Postal code (optional)"
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="city-section">
+            <div className="form-group">
+              <input
+                type="text"
+                id="city"
+                name="city"
+                placeholder="City"
+                value={formData.city}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="phone-section">
+          <div className="form-group">
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
         <div className="form-group checkbox">
