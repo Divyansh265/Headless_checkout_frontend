@@ -1,5 +1,13 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
 .checkout--products-container {
-    width:50%;
+    max-width: calc(40% - 10px);
+    width:100%;
     padding: 10px;
     border: 1px solid #eee;
     border-radius: 12px;
@@ -12,13 +20,17 @@
     margin-bottom: 20px;
 }
 .checkout--products-container .total {
-    text-align: right;
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .checkout--products-container ul{
     margin: 0;
     padding: 10px 20px;
+    max-height: 255px;
+    overflow: auto;
 }
 
 .cart-product-data {
@@ -73,24 +85,27 @@
 
 
 /*  */
-.checkout-page{
+.checkout-page {
     display: flex;
-    padding: 2rem;
-    margin: 30px auto;
+    padding: 2rem 0;
+    column-gap: 5rem;
+    justify-content: center;
 }
 
 .checkout-address-form {
-    width: 50%;
+    max-width: calc(40% - 10px);
+    width:100%;
 }
 
 .discount-codes input{
     padding: 12px;
-    width: 65%;
-    margin-right: 15px;
+    width: 70%;
+    margin-right: 10px;
 }
 
 .discount-apply-btn{
     padding: 12px;
+    width: 20%;
 }
 p.cart-product-item-quantity {
     text-align: left;
@@ -114,4 +129,40 @@ p.cart-product-variant{
 
 .cart-product-item-quantity{
     text-align: right;
+}
+
+.checkout-item-count{
+    display: flex;
+    justify-content: space-between;
+    margin-top:15px;
+}
+
+/* form css */
+.email-section .email input{
+    width:100%;
+    padding: 10px;
+}
+.email-section  .form-group.email {
+    margin-bottom: 10px;
+}
+
+.email-section .form-group.checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.delivery-section select{
+    width:100%;
+    padding: 15px 0 10px 10px;
+}
+
+.delivery-section .form-group {
+    position: relative;
+}
+.delivery-section label {
+    position: absolute;
+    left: 12px;
+    font-size: 12px;
+    top: 4px;
+    padding-bottom: 11px;
 }

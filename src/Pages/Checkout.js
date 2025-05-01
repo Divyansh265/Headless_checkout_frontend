@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./Checkout.css";
+import ContactDeliveryForm from "./ContactDeliveryForm";
 
 const Checkout = () => {
   const [cartData, setCartData] = useState(null);
@@ -65,7 +66,11 @@ const Checkout = () => {
 
   return (
     <div className="checkout-page">
-      <div className="checkout-address-form"> form </div>
+      <div className="checkout-address-form"> 
+        
+        <ContactDeliveryForm/>
+
+         </div>
 
       <div className="checkout--products-container">
         <h2>Checkout</h2>
@@ -95,9 +100,7 @@ const Checkout = () => {
           ))}
         </ul>
 
-        <p className="total">
-          <strong>Total:</strong> ${(cartData.total_price / 100).toFixed(2)}
-        </p>
+        
 
         <div className="discount-codes">
           <input
@@ -106,6 +109,17 @@ const Checkout = () => {
             placeholder="Discount code or gift card"
           />
           <button className="discount-apply-btn">Apply</button>
+        </div>
+
+        <div className="checkout-item-count">
+          <p>Subtotal: {cartData.item_count?cartData.item_count:"No items"} items</p>
+          <p>{cartData.currency} {(cartData.total_price / 100).toFixed(2)}</p>
+          </div>
+
+
+          <div className="total">
+          <p>Total:</p>
+          <p>{cartData.currency} {(cartData.total_price / 100).toFixed(2)}</p>
         </div>
 
         {!orderStatus && (
