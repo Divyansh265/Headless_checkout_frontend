@@ -12,8 +12,8 @@ import Home from "./Pages/Home";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<Home />} /> 
-      <Route path="/checkout" element={<Checkout />} /> 
+      <Route path="/" element={<Home />} />
+      <Route path="/checkout" element={<Checkout />} />
     </>
   )
 );
