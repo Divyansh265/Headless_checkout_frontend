@@ -82,7 +82,7 @@ const Checkout = () => {
             };
 
             const response = await fetch(
-                "https://headless-checkout-backend.onrender.com/create-order",
+                "https://headless-checkout-backend.onrender.com/api/create-order",
                 {
                     method: "POST",
                     headers: {
