@@ -71,15 +71,15 @@ const Checkout = () => {
             const result = await response.json();
 
             if (response.ok) {
-                setOrderStatus(`✅ Order created! ID: ${result.order.id}`);
+                setOrderStatus(`Order created! ID: ${result.order.id}`);
             } else {
                 setOrderStatus(
-                    `❌ Order creation failed: ${result.error || "Unknown error"}`
+                    ` Order creation failed: ${result.error || "Unknown error"}`
                 );
             }
         } catch (error) {
             console.error("Error placing order:", error);
-            setOrderStatus("❌ Failed to place order");
+            setOrderStatus(" Failed to place order");
         }
     };
 
@@ -89,9 +89,7 @@ const Checkout = () => {
     return (
         <div className="checkout-page">
             <div className="checkout-address-form">
-
                 <ContactDeliveryForm />
-
             </div>
 
             <div className="checkout--products-container">

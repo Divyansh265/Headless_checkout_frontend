@@ -46,36 +46,36 @@ const ContactDeliveryForm = () => {
             />
           </div>
           <div className="form-group checkbox">
-          <input
-            type="checkbox"
-            id="newsOffers"
-            name="newsOffers"
-            checked={formData.newsOffers}
-            onChange={handleChange}
-          />
-          <label htmlFor="newsOffers">Email me with news and offers</label>
-         </div>
+            <input
+              type="checkbox"
+              id="newsOffers"
+              name="newsOffers"
+              checked={formData.newsOffers}
+              onChange={handleChange}
+            />
+            <label htmlFor="newsOffers">Email me with news and offers</label>
+          </div>
         </div>
 
-        
 
-<div className="delivery-section">
-        <h3>Delivery</h3>
 
-        <div className="form-group">
-          <label htmlFor="country">Country/Region</label>
-          <select
-            id="country"
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-          >
-            <option value="Kuwait">Kuwait</option>
-            <option value="Saudi Arabia">Saudi Arabia</option>
-            <option value="UAE">United Arab Emirates</option>
-            {/* Add more countries as needed */}
-          </select>
-        </div>
+        <div className="delivery-section">
+          <h3>Delivery</h3>
+
+          <div className="form-group">
+            <label htmlFor="country">Country/Region</label>
+            <select
+              id="country"
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
+            >
+              <option value="Kuwait">Kuwait</option>
+              <option value="Saudi Arabia">Saudi Arabia</option>
+              <option value="UAE">United Arab Emirates</option>
+              {/* Add more countries as needed */}
+            </select>
+          </div>
         </div>
 
 
