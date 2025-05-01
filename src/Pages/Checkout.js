@@ -8,6 +8,7 @@ const Checkout = () => {
     const [orderStatus, setOrderStatus] = useState(null);
     const [discountCode, setDiscountCode] = useState("");
     const [discountStatus, setDiscountStatus] = useState(null);
+    const [appliedPriceRule, setAppliedPriceRule] = useState(null);
     const location = useLocation();
     const token = new URLSearchParams(location.search).get('token');
 
@@ -44,7 +45,7 @@ const Checkout = () => {
             const result = await response.json();
             console.log("Discount price rule :", result)
             if (response.ok) {
-                setDiscountStatus(`Discount applied: ${result.discountAmount}`);
+                setDiscountStatus(`Discount applied: ${result.priceRule.title}`);
             } else {
                 setDiscountStatus(`Failed: ${result.error}`);
             }
