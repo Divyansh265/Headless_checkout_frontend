@@ -168,5 +168,9 @@ p.cart-product-variant{
 }
 .name-fields-section{
     display:flex;
+}
 
+
+.remove-discount-sec {
+    margin-top: 10px;
 }
