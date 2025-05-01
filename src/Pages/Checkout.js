@@ -41,7 +41,7 @@ const Checkout = () => {
                 },
                 body: JSON.stringify({ code: discountCode }),
             });
-
+            console.log("reponse to get", response)
             const result = await response.json();
             if (response.ok) {
                 setDiscountStatus(`Discount applied: ${result.discountAmount}`);
