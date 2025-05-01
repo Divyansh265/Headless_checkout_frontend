@@ -13,6 +13,7 @@ const Checkout = () => {
     const [discountType, setDiscountType] = useState(null);
     const location = useLocation();
     const token = new URLSearchParams(location.search).get('token');
+    // const token = "Z2NwLXVzLWVhc3QxOjAxSlQ1UjBFQ1kxMVFEUDRENTI1MzZCQzc2?key=360750642513b2d782ad356ac22792f7";
 
     useEffect(() => {
         if (token) {
@@ -50,9 +51,8 @@ const Checkout = () => {
             if (response.ok) {
                 setDiscountStatus(`Discount applied: ${result.priceRule.title}`);
                 setDiscountType(result.priceRule.value_type);
-
                 if (result.priceRule.value_type === "fixed_amount") {
-                    setDiscountValue(parseFloat(result.priceRule.value) * 100);
+                    setDiscountValue(Math.abs(parseFloat(result.priceRule.value)) * 100);
                 } else if (result.priceRule.value_type === "percentage") {
                     const discount = cartData.total_price * (Math.abs(parseFloat(result.priceRule.value)) / 100);
                     setDiscountValue(discount);
@@ -83,6 +83,7 @@ const Checkout = () => {
 
             const response = await fetch(
                 "https://headless-checkout-backend.onrender.com/api/create-order",
+                // "http://localhost:3800/api/create-order",
                 {
                     method: "POST",
                     headers: {
@@ -108,7 +109,7 @@ const Checkout = () => {
     if (loading) return <p>Loading cart...</p>;
     if (!cartData) return <p>No cart found.</p>;
 
-    const discountedTotal = cartData.total_price + (discountValue);
+    const discountedTotal = cartData.total_price - (discountValue);
 
     return (
         <div className="checkout-page">
