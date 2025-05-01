@@ -79,13 +79,14 @@ const ContactDeliveryForm = () => {
         </div>
 
 
-        <div className="name-fields">
+        <div className="name-fields-section">
           <div className="form-group">
-            <label htmlFor="firstName">First name</label>
+            
             <input
               type="text"
               id="firstName"
               name="firstName"
+              placeholder="firstname"
               value={formData.firstName}
               onChange={handleChange}
               required
@@ -93,11 +94,12 @@ const ContactDeliveryForm = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="lastName">Last name</label>
+            
             <input
               type="text"
               id="lastName"
               name="lastName"
+              placeholder="lastname"
               value={formData.lastName}
               onChange={handleChange}
               required

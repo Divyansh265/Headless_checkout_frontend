@@ -166,3 +166,7 @@ p.cart-product-variant{
     top: 4px;
     padding-bottom: 11px;
 }
+.name-fields-section{
+    display:flex;
+
+}

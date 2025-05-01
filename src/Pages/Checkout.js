@@ -12,6 +12,8 @@ const Checkout = () => {
     const [appliedPriceRule, setAppliedPriceRule] = useState(null);
     const location = useLocation();
     const token = new URLSearchParams(location.search).get('token');
+    
+    // fetch cart data
     useEffect(() => {
         if (token) {
             const fetchCartData = async () => {
@@ -33,6 +35,7 @@ const Checkout = () => {
         }
     }, [token]);
 
+    // discount code handling api
     const handleApplyDiscount = async () => {
         try {
             const response = await fetch("https://headless-checkout-backend.onrender.com/api/apply-discount", {
@@ -55,6 +58,8 @@ const Checkout = () => {
             setDiscountStatus("Error applying discount");
         }
     };
+
+    // order place api
     const handlePlaceOrder = async () => {
         try {
             const response = await fetch(
