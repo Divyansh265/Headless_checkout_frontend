@@ -9,11 +9,10 @@ const Checkout = () => {
     const [orderStatus, setOrderStatus] = useState(null);
     const [discountCode, setDiscountCode] = useState("");
     const [discountStatus, setDiscountStatus] = useState(null);
-    const [appliedPriceRule, setAppliedPriceRule] = useState(null);
     const [discountValue, setDiscountValue] = useState(0);
+    const [discountType, setDiscountType] = useState(null);
     const location = useLocation();
     const token = new URLSearchParams(location.search).get('token');
-
 
     useEffect(() => {
         if (token) {
@@ -35,6 +34,7 @@ const Checkout = () => {
             fetchCartData();
         }
     }, [token]);
+
     const handleApplyDiscount = async () => {
         try {
             const response = await fetch("https://headless-checkout-backend.onrender.com/api/apply-discount", {
@@ -49,6 +49,8 @@ const Checkout = () => {
 
             if (response.ok) {
                 setDiscountStatus(`Discount applied: ${result.priceRule.title}`);
+                setDiscountType(result.priceRule.value_type);
+
                 if (result.priceRule.value_type === "fixed_amount") {
                     setDiscountValue(parseFloat(result.priceRule.value) * 100);
                 } else if (result.priceRule.value_type === "percentage") {
@@ -68,6 +70,17 @@ const Checkout = () => {
 
     const handlePlaceOrder = async () => {
         try {
+            // Send cart items + discount info; let backend calculate total
+            const orderPayload = {
+                items: cartData.items,
+                currency: cartData.currency,
+                discount: {
+                    code: discountCode,
+                    value: discountValue,
+                    type: discountType,
+                },
+            };
+
             const response = await fetch(
                 "https://headless-checkout-backend.onrender.com/create-order",
                 {
@@ -75,7 +88,7 @@ const Checkout = () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(cartData),
+                    body: JSON.stringify(orderPayload),
                 }
             );
 
@@ -84,9 +97,7 @@ const Checkout = () => {
             if (response.ok) {
                 setOrderStatus(`Order created! ID: ${result.order.id}`);
             } else {
-                setOrderStatus(
-                    ` Order creation failed: ${result.error || "Unknown error"}`
-                );
+                setOrderStatus(` Order creation failed: ${result.error || "Unknown error"}`);
             }
         } catch (error) {
             console.error("Error placing order:", error);
@@ -96,6 +107,8 @@ const Checkout = () => {
 
     if (loading) return <p>Loading cart...</p>;
     if (!cartData) return <p>No cart found.</p>;
+
+    const discountedTotal = cartData.total_price - discountValue;
 
     return (
         <div className="checkout-page">
@@ -131,8 +144,6 @@ const Checkout = () => {
                     ))}
                 </ul>
 
-
-
                 <div className="discount-codes">
                     <input
                         className="discount-feild"
@@ -163,12 +174,10 @@ const Checkout = () => {
                     <div className="total">
                         <p>Total:</p>
                         <p>
-                            {cartData.currency} {((cartData.total_price - discountValue) / 100).toFixed(2)}
+                            {cartData.currency} {(discountedTotal / 100).toFixed(2)}
                         </p>
                     </div>
                 </div>
-
-
 
                 {!orderStatus && (
                     <button onClick={handlePlaceOrder} className="place-order-btn">
