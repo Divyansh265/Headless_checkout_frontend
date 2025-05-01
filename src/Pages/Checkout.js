@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./Checkout.css";
+import ContactDeliveryForm from "./ContactDeliveryForm";
 
 const Checkout = () => {
     const [cartData, setCartData] = useState(null);
@@ -19,6 +20,7 @@ const Checkout = () => {
                         `https://headless-checkout-backend.onrender.com/api/cart-data?token=${token}`
                     );
                     const data = await response.json();
+                    console.log("Data", data);
                     setCartData(data);
                 } catch (error) {
                     console.error("Error fetching cart data:", error);
@@ -34,7 +36,7 @@ const Checkout = () => {
     const handlePlaceOrder = async () => {
         try {
             const response = await fetch(
-                "https://headless-checkout-backend.onrender.com/api/create-order",
+                "https://headless-checkout-backend.onrender.com/create-order",
                 {
                     method: "POST",
                     headers: {
@@ -45,6 +47,7 @@ const Checkout = () => {
             );
 
             const result = await response.json();
+
             if (response.ok) {
                 setOrderStatus(`✅ Order created! ID: ${result.order.id}`);
             } else {
@@ -63,7 +66,11 @@ const Checkout = () => {
 
     return (
         <div className="checkout-page">
-            <div className="checkout-address-form"> form </div>
+            <div className="checkout-address-form">
+
+                <ContactDeliveryForm />
+
+            </div>
 
             <div className="checkout--products-container">
                 <h2>Checkout</h2>
@@ -71,32 +78,48 @@ const Checkout = () => {
                 <ul>
                     {cartData.items.map((item) => (
                         <li key={item.id} className="cart-item">
-
                             <img
                                 className="cart-product-img"
                                 src={item.image}
                                 alt={item.title}
-                                width="60"
                             />
 
                             <div className="cart-product-data">
-                                <p className="cart-product-item-name">{item.title}</p>
-                                <p className="cart-product-item-quantity"> Qty: {item.quantity}</p>
-                                <p className="cart-product-item-price">
-                                    Price: ${(item.price / 100).toFixed(2)}
-                                </p>
+                                <div>
+                                    <p className="cart-product-item-name">{item.product_title}</p>
+                                    <p className="cart-product-item-quantity">
+                                        Qty: {item.quantity}
+                                    </p>
+                                    <p className="cart-product-variant">{item.variant_title}</p>
+                                </div>
+                                <div>
+                                    <p className="cart-product-item-price"> {cartData.currency} {(item.price / 100).toFixed(2)} </p>
+                                </div>
                             </div>
                         </li>
                     ))}
                 </ul>
 
-                <p>
-                    <strong>Total:</strong> ${(cartData.total_price / 100).toFixed(2)}
-                </p>
+
 
                 <div className="discount-codes">
-                    <input className="discount-feild" type="text" placeholder="Discount code or gift card" />
+                    <input
+                        className="discount-feild"
+                        type="text"
+                        placeholder="Discount code or gift card"
+                    />
                     <button className="discount-apply-btn">Apply</button>
+                </div>
+
+                <div className="checkout-item-count">
+                    <p>Subtotal: {cartData.item_count ? cartData.item_count : "No items"} items</p>
+                    <p>{cartData.currency} {(cartData.total_price / 100).toFixed(2)}</p>
+                </div>
+
+
+                <div className="total">
+                    <p>Total:</p>
+                    <p>{cartData.currency} {(cartData.total_price / 100).toFixed(2)}</p>
                 </div>
 
                 {!orderStatus && (
