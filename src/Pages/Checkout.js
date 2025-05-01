@@ -43,7 +43,7 @@ const Checkout = () => {
                 body: JSON.stringify({ code: discountCode }),
             });
             const result = await response.json();
-            console.log("Discount price rule :", result)
+            console.log("Discount price rule :", result.priceRule)
             if (response.ok) {
                 setDiscountStatus(`Discount applied: ${result.priceRule.title}`);
             } else {
