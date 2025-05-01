@@ -6,10 +6,10 @@ const Checkout = () => {
     const [cartData, setCartData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [orderStatus, setOrderStatus] = useState(null);
+    const [discountCode, setDiscountCode] = useState("");
+    const [discountStatus, setDiscountStatus] = useState(null);
     const location = useLocation();
     const token = new URLSearchParams(location.search).get('token');
-    // const token =
-    //     "Z2NwLXVzLWVhc3QxOjAxSlJGRDlHRDcwRzQxNUhTQTZRUk02TTU1?key=6fff473dace8ec0a9a0d52a4329176f1";
 
     useEffect(() => {
         if (token) {
@@ -31,6 +31,30 @@ const Checkout = () => {
         }
     }, [token]);
 
+
+    const handleApplyDiscount = async () => {
+        try {
+            const response = await fetch("https://headless-checkout-backend.onrender.com/api/apply-discount", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ code: discountCode }),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                setDiscountStatus(`Discount applied: ${result.discountAmount}`);
+            } else {
+                setDiscountStatus(`Failed: ${result.error}`);
+            }
+        } catch (error) {
+            console.error("Error applying discount:", error);
+            setDiscountStatus("Error applying discount");
+        }
+    };
+
+
     const handlePlaceOrder = async () => {
         try {
             const response = await fetch(
@@ -46,15 +70,15 @@ const Checkout = () => {
 
             const result = await response.json();
             if (response.ok) {
-                setOrderStatus(`✅ Order created! ID: ${result.order.id}`);
+                setOrderStatus(`Order created! ID: ${result.order.id}`);
             } else {
                 setOrderStatus(
-                    `❌ Order creation failed: ${result.error || "Unknown error"}`
+                    `Order creation failed: ${result.error || "Unknown error"}`
                 );
             }
         } catch (error) {
             console.error("Error placing order:", error);
-            setOrderStatus("❌ Failed to place order");
+            setOrderStatus("Failed to place order");
         }
     };
 
@@ -95,8 +119,17 @@ const Checkout = () => {
                 </p>
 
                 <div className="discount-codes">
-                    <input className="discount-feild" type="text" placeholder="Discount code or gift card" />
-                    <button className="discount-apply-btn">Apply</button>
+                    <input
+                        className="discount-feild"
+                        type="text"
+                        placeholder="Discount code or gift card"
+                        value={discountCode}
+                        onChange={(e) => setDiscountCode(e.target.value)}
+                    />
+                    <button onClick={handleApplyDiscount} className="discount-apply-btn">
+                        Apply
+                    </button>
+                    {discountStatus && <p>{discountStatus}</p>}
                 </div>
 
                 {!orderStatus && (
