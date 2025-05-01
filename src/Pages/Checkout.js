@@ -58,10 +58,8 @@ const Checkout = () => {
       console.log("Discount price rule :", result.priceRule);
       setDiscountValue(result.priceRule.value);
       setDiscountTitle(result.priceRule.title);
-
       if (response.ok) {
         setDiscountStatus(`Discount applied: ${result.priceRule.title}`);
-        
       } else {
         setDiscountStatus(`Failed: ${result.error}`);
       }
@@ -162,8 +160,8 @@ const Checkout = () => {
           <div className="remove-discount-sec">
             {discountStatus ? (
               <button className="remove-discount-btn" onClick={removeDiscount}>
-                {/* <p>{discountStatus}</p> */}
-                <p>{discountTitle}</p>
+                <p>{discountStatus}</p>
+               
               </button>
             ) : null}
           </div>
