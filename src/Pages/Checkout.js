@@ -10,8 +10,11 @@ const Checkout = () => {
     const [discountCode, setDiscountCode] = useState("");
     const [discountStatus, setDiscountStatus] = useState(null);
     const [appliedPriceRule, setAppliedPriceRule] = useState(null);
+    const [discountValue, setDiscountValue] = useState(0);
     const location = useLocation();
     const token = new URLSearchParams(location.search).get('token');
+
+
     useEffect(() => {
         if (token) {
             const fetchCartData = async () => {
@@ -32,7 +35,6 @@ const Checkout = () => {
             fetchCartData();
         }
     }, [token]);
-
     const handleApplyDiscount = async () => {
         try {
             const response = await fetch("https://headless-checkout-backend.onrender.com/api/apply-discount", {
@@ -43,18 +45,27 @@ const Checkout = () => {
                 body: JSON.stringify({ code: discountCode }),
             });
             const result = await response.json();
-            console.log("Discount price rule :", result.priceRule)
+            console.log("Discount price rule :", result.priceRule);
 
             if (response.ok) {
                 setDiscountStatus(`Discount applied: ${result.priceRule.title}`);
+                if (result.priceRule.value_type === "fixed_amount") {
+                    setDiscountValue(parseFloat(result.priceRule.value) * 100);
+                } else if (result.priceRule.value_type === "percentage") {
+                    const discount = cartData.total_price * (Math.abs(parseFloat(result.priceRule.value)) / 100);
+                    setDiscountValue(discount);
+                }
             } else {
                 setDiscountStatus(`Failed: ${result.error}`);
+                setDiscountValue(0);
             }
         } catch (error) {
             console.error("Error applying discount:", error);
             setDiscountStatus("Error applying discount");
+            setDiscountValue(0);
         }
     };
+
     const handlePlaceOrder = async () => {
         try {
             const response = await fetch(
