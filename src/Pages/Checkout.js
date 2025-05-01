@@ -147,16 +147,28 @@ const Checkout = () => {
                     {discountStatus && <p>{discountStatus}</p>}
                 </div>
 
-                <div className="checkout-item-count">
-                    <p>Subtotal: {cartData.item_count ? cartData.item_count : "No items"} items</p>
-                    <p>{cartData.currency} {(cartData.total_price / 100).toFixed(2)}</p>
+                <div className="checkout-summary">
+                    <div className="checkout-item-count">
+                        <p>Subtotal ({cartData.item_count} items):</p>
+                        <p>{cartData.currency} {(cartData.total_price / 100).toFixed(2)}</p>
+                    </div>
+
+                    {discountValue > 0 && (
+                        <div className="discount-summary">
+                            <p>Discount:</p>
+                            <p>- {cartData.currency} {(discountValue / 100).toFixed(2)}</p>
+                        </div>
+                    )}
+
+                    <div className="total">
+                        <p>Total:</p>
+                        <p>
+                            {cartData.currency} {((cartData.total_price - discountValue) / 100).toFixed(2)}
+                        </p>
+                    </div>
                 </div>
 
 
-                <div className="total">
-                    <p>Total:</p>
-                    <p>{cartData.currency} {(cartData.total_price / 100).toFixed(2)}</p>
-                </div>
 
                 {!orderStatus && (
                     <button onClick={handlePlaceOrder} className="place-order-btn">
