@@ -108,7 +108,7 @@ const Checkout = () => {
     if (loading) return <p>Loading cart...</p>;
     if (!cartData) return <p>No cart found.</p>;
 
-    const discountedTotal = cartData.total_price - discountValue;
+    const discountedTotal = cartData.total_price + (discountValue);
 
     return (
         <div className="checkout-page">
