@@ -60,6 +60,8 @@ const Checkout = () => {
                     const discount = cartData.total_price * (Math.abs(parseFloat(result.priceRule.value)) / 100);
                     const actDis = (Math.abs(parseFloat(result.priceRule.value)) / 100)
                     setActualDiscount(actDis)
+                    console.log("Discount value ", actDis)
+                    console.log("Discount value state ", actualDiscount)
                     setDiscountValue(discount);
                 }
             } else {
