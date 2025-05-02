@@ -182,7 +182,7 @@ const Checkout = () => {
                     <div className="total">
                         <p>Total:</p>
                         <p>
-                            {cartData.currency} {(discountedTotal).toFixed(2)}
+                            {cartData.currency} {(discountedTotal / 100).toFixed(2)}
                         </p>
                     </div>
                 </div>
