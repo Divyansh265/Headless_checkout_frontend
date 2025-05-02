@@ -61,7 +61,7 @@ const Checkout = () => {
                     const actDis = (Math.abs(parseFloat(result.priceRule.value))).toFixed(2)
                     setActualDiscount(actDis)
                     console.log("Discount value ", actDis)
-                    console.log("Discount value state ", actualDiscount)
+                    console.log("Discount value state ", discount)
                     setDiscountValue(discount);
                 }
             } else {
