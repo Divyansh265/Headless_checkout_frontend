@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./Checkout.css";
 import ContactDeliveryForm from "./ContactDeliveryForm";
@@ -11,6 +11,7 @@ const Checkout = () => {
     const [discountStatus, setDiscountStatus] = useState(null);
     const [discountValue, setDiscountValue] = useState(0);
     const [discountType, setDiscountType] = useState(null);
+    const [actualDiscount, setActualDiscount] = useState(0);
     const location = useLocation();
     const token = new URLSearchParams(location.search).get('token');
     // const token = "Z2NwLXVzLWVhc3QxOjAxSlQ1UjBFQ1kxMVFEUDRENTI1MzZCQzc2?key=360750642513b2d782ad356ac22792f7";
@@ -55,6 +56,8 @@ const Checkout = () => {
                     setDiscountValue(Math.abs(parseFloat(result.priceRule.value)) * 100);
                 } else if (result.priceRule.value_type === "percentage") {
                     const discount = cartData.total_price * (Math.abs(parseFloat(result.priceRule.value)) / 100);
+                    const actDis = (Math.abs(parseFloat(result.priceRule.value)) / 100)
+                    setActualDiscount(actDis)
                     setDiscountValue(discount);
                 }
             } else {
@@ -76,7 +79,7 @@ const Checkout = () => {
                 currency: cartData.currency,
                 discount: {
                     code: discountCode,
-                    value: discountValue,
+                    value: actualDiscount,
                     type: discountType,
                 },
             };
