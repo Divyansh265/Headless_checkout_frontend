@@ -57,7 +57,7 @@ const Checkout = () => {
                     setActualDiscount(Math.abs(parseFloat(result.priceRule.value)) * 100);
 
                 } else if (result.priceRule.value_type === "percentage") {
-                    const discount = cartData.total_price * (Math.abs(parseFloat(result.priceRule.value)) / 100);
+                    const discount = ((cartData.total_price * (Math.abs(parseFloat(result.priceRule.value)) / 100)) / 100).toFixed(2);
                     const actDis = (Math.abs(parseFloat(result.priceRule.value))).toFixed(2)
                     setActualDiscount(actDis)
                     console.log("Discount value ", actDis)
