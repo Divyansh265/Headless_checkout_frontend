@@ -54,17 +54,16 @@ const Checkout = () => {
                 setDiscountType(result.priceRule.value_type);
                 if (result.priceRule.value_type === "fixed_amount") {
                     setDiscountValue(Math.abs(parseFloat(result.priceRule.value)) * 100);
-                    setActualDiscount(Math.abs(parseFloat(result.priceRule.value)) * 100);
+                    setActualDiscount((Math.abs(parseFloat(result.priceRule.value)) * 100) / 100);
 
                 } else if (result.priceRule.value_type === "percentage") {
-                    const discount = ((cartData.total_price * (Math.abs(parseFloat(result.priceRule.value)) / 100)) / 100).toFixed(2);
-                    const actDis = (Math.abs(parseFloat(result.priceRule.value))).toFixed(2)
-                    setActualDiscount(parseFloat(actDis));
-
-                    console.log("Discount value ", actDis)
-                    console.log("Discount value state ", discount)
-                    setDiscountValue(discount);
+                    const discountPercentage = Math.abs(parseFloat(result.priceRule.value)); // e.g., 10 for 10%
+                    const discountInCents = Math.round((cartData.total_price * discountPercentage) / 100);
+                    setDiscountValue(discountInCents);
+                    setActualDiscount(discountPercentage);
+                    setDiscountStatus(`Discount applied: ${discountPercentage}% off`);
                 }
+
             } else {
                 setDiscountStatus(`Failed: ${result.error}`);
                 setDiscountValue(0);
@@ -75,6 +74,7 @@ const Checkout = () => {
             setDiscountValue(0);
         }
     };
+    console.log("actualDiscount", actualDiscount);
 
     const handlePlaceOrder = async () => {
         try {
@@ -117,9 +117,7 @@ const Checkout = () => {
     if (loading) return <p>Loading cart...</p>;
     if (!cartData) return <p>No cart found.</p>;
 
-    // const discountedTotal = cartData.total_price - (discountValue);
-    const discountedTotal = cartData.total_price - Math.round(Number(discountValue) * 100);
-
+    const discountedTotal = cartData.total_price - (discountValue);
 
     return (
         <div className="checkout-page">
@@ -178,10 +176,9 @@ const Checkout = () => {
                     {discountValue > 0 && (
                         <div className="discount-summary">
                             <p>Discount:</p>
-                            <p>- {cartData.currency} {Number(discountValue).toFixed(2)}</p>
+                            <p>- {cartData.currency} {(discountValue / 100).toFixed(2)}</p>
                         </div>
                     )}
-
 
                     <div className="total">
                         <p>Total:</p>
