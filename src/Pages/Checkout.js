@@ -12,6 +12,20 @@ const Checkout = () => {
     const [discountValue, setDiscountValue] = useState(0);
     const [discountType, setDiscountType] = useState(null);
     const [actualDiscount, setActualDiscount] = useState(0);
+    const [formData, setFormData] = useState({
+        newsOffers: false,
+        country: "Kuwait",
+        firstName: "",
+        lastName: "",
+        address: "",
+        address2: "",
+        postalCode: "",
+        city: "",
+        governorate: "",
+        phone: "",
+        saveInfo: false,
+        email: "", // you missed email in child form state
+    });
     const location = useLocation();
     const token = new URLSearchParams(location.search).get('token');
     // const token = "Z2NwLXVzLWVhc3QxOjAxSlQ3U1A5QldHMTM3OVNaVllKV0E0OTRB?key=1191486e602fc8ca8fc90051057262db";
@@ -37,6 +51,8 @@ const Checkout = () => {
         }
     }, [token]);
 
+
+    //apply discount
     const handleApplyDiscount = async () => {
         try {
             const response = await fetch("https://headless-checkout-backend.onrender.com/api/apply-discount", {
@@ -76,9 +92,9 @@ const Checkout = () => {
     };
     console.log("actualDiscount", actualDiscount);
 
+    //place order
     const handlePlaceOrder = async () => {
         try {
-            // Send cart items + discount info; let backend calculate total
             const orderPayload = {
                 items: cartData.items,
                 currency: cartData.currency,
@@ -87,16 +103,14 @@ const Checkout = () => {
                     value: actualDiscount,
                     type: discountType,
                 },
+                customer: formData,  // 👈 include formData in your order payload
             };
 
             const response = await fetch(
                 "https://headless-checkout-backend.onrender.com/api/create-order",
-                // "http://localhost:3800/api/create-order",
                 {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(orderPayload),
                 }
             );
@@ -106,11 +120,11 @@ const Checkout = () => {
             if (response.ok) {
                 setOrderStatus(`Order created! ID: ${result.order.id}`);
             } else {
-                setOrderStatus(` Order creation failed: ${result.error || "Unknown error"}`);
+                setOrderStatus(`Order creation failed: ${result.error || "Unknown error"}`);
             }
         } catch (error) {
             console.error("Error placing order:", error);
-            setOrderStatus(" Failed to place order");
+            setOrderStatus("Failed to place order");
         }
     };
 
@@ -122,7 +136,8 @@ const Checkout = () => {
     return (
         <div className="checkout-page">
             <div className="checkout-address-form">
-                <ContactDeliveryForm />
+                <ContactDeliveryForm formData={formData} setFormData={setFormData} />
+
             </div>
 
             <div className="checkout--products-container">

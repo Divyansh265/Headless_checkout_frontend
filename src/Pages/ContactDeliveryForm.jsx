@@ -1,20 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-const ContactDeliveryForm = () => {
-  const [formData, setFormData] = useState({
-    newsOffers: false,
-    country: "Kuwait",
-    firstName: "",
-    lastName: "",
-    address: "",
-    address2: "",
-    postalCode: "",
-    city: "",
-    governorate: "",
-    phone: "",
-    saveInfo: false,
-  });
-
+const ContactDeliveryForm = ({ formData, setFormData }) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -25,7 +11,6 @@ const ContactDeliveryForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
     console.log(formData);
   };
 
@@ -40,8 +25,9 @@ const ContactDeliveryForm = () => {
               id="email"
               name="email"
               placeholder="Email"
-              checked={formData.newsOffers}
+              value={formData.email}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="form-group checkbox">
@@ -70,7 +56,6 @@ const ContactDeliveryForm = () => {
               <option value="Kuwait">Kuwait</option>
               <option value="Saudi Arabia">Saudi Arabia</option>
               <option value="UAE">United Arab Emirates</option>
-              {/* Add more countries as needed */}
             </select>
           </div>
         </div>
@@ -81,7 +66,7 @@ const ContactDeliveryForm = () => {
               type="text"
               id="firstName"
               name="firstName"
-              placeholder="firstname"
+              placeholder="First name"
               value={formData.firstName}
               onChange={handleChange}
               required
@@ -93,7 +78,7 @@ const ContactDeliveryForm = () => {
               type="text"
               id="lastName"
               name="lastName"
-              placeholder="lastname"
+              placeholder="Last name"
               value={formData.lastName}
               onChange={handleChange}
               required
@@ -129,33 +114,27 @@ const ContactDeliveryForm = () => {
         </div>
 
         <div className="postalCode-section">
-          <div className="address-section">
-            <div className="address-fields">
-              <div className="form-group">
-                <input
-                  type="text"
-                  id="postalCode"
-                  name="postalCode"
-                  value={formData.postalCode}
-                  placeholder="Postal code (optional)"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+          <div className="form-group">
+            <input
+              type="text"
+              id="postalCode"
+              name="postalCode"
+              value={formData.postalCode}
+              placeholder="Postal code (optional)"
+              onChange={handleChange}
+            />
           </div>
 
-          <div className="city-section">
-            <div className="form-group">
-              <input
-                type="text"
-                id="city"
-                name="city"
-                placeholder="City"
-                value={formData.city}
-                onChange={handleChange}
-                required
-              />
-            </div>
+          <div className="form-group">
+            <input
+              type="text"
+              id="city"
+              name="city"
+              placeholder="City"
+              value={formData.city}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
 
@@ -165,7 +144,7 @@ const ContactDeliveryForm = () => {
               type="tel"
               id="phone"
               name="phone"
-              placeholder="phone"
+              placeholder="Phone"
               value={formData.phone}
               onChange={handleChange}
               required
