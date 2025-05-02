@@ -13,8 +13,8 @@ const Checkout = () => {
     const [discountType, setDiscountType] = useState(null);
     const [actualDiscount, setActualDiscount] = useState(0);
     const location = useLocation();
-    const token = new URLSearchParams(location.search).get('token');
-    // const token = "Z2NwLXVzLWVhc3QxOjAxSlQ1UjBFQ1kxMVFEUDRENTI1MzZCQzc2?key=360750642513b2d782ad356ac22792f7";
+    // const token = new URLSearchParams(location.search).get('token');
+    const token = "Z2NwLXVzLWVhc3QxOjAxSlQ3U1A5QldHMTM3OVNaVllKV0E0OTRB?key=1191486e602fc8ca8fc90051057262db";
 
     useEffect(() => {
         if (token) {
@@ -59,7 +59,8 @@ const Checkout = () => {
                 } else if (result.priceRule.value_type === "percentage") {
                     const discount = ((cartData.total_price * (Math.abs(parseFloat(result.priceRule.value)) / 100)) / 100).toFixed(2);
                     const actDis = (Math.abs(parseFloat(result.priceRule.value))).toFixed(2)
-                    setActualDiscount(actDis)
+                    setActualDiscount(parseFloat(actDis));
+
                     console.log("Discount value ", actDis)
                     console.log("Discount value state ", discount)
                     setDiscountValue(discount);
@@ -116,7 +117,9 @@ const Checkout = () => {
     if (loading) return <p>Loading cart...</p>;
     if (!cartData) return <p>No cart found.</p>;
 
-    const discountedTotal = cartData.total_price - (discountValue);
+    // const discountedTotal = cartData.total_price - (discountValue);
+    const discountedTotal = cartData.total_price - Math.round(Number(discountValue) * 100);
+
 
     return (
         <div className="checkout-page">
@@ -175,9 +178,10 @@ const Checkout = () => {
                     {discountValue > 0 && (
                         <div className="discount-summary">
                             <p>Discount:</p>
-                            <p>- {cartData.currency} {(discountValue).toFixed(2)}</p>
+                            <p>- {cartData.currency} {Number(discountValue).toFixed(2)}</p>
                         </div>
                     )}
+
 
                     <div className="total">
                         <p>Total:</p>
