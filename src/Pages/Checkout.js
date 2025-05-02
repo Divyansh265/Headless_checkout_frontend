@@ -21,7 +21,6 @@ const Checkout = () => {
         address2: "",
         postalCode: "",
         city: "",
-        governorate: "",
         phone: "",
         saveInfo: false,
         email: "", // you missed email in child form state
