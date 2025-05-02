@@ -13,8 +13,8 @@ const Checkout = () => {
     const [discountType, setDiscountType] = useState(null);
     const [actualDiscount, setActualDiscount] = useState(0);
     const location = useLocation();
-    // const token = new URLSearchParams(location.search).get('token');
-    const token = "Z2NwLXVzLWVhc3QxOjAxSlQ3U1A5QldHMTM3OVNaVllKV0E0OTRB?key=1191486e602fc8ca8fc90051057262db";
+    const token = new URLSearchParams(location.search).get('token');
+    // const token = "Z2NwLXVzLWVhc3QxOjAxSlQ3U1A5QldHMTM3OVNaVllKV0E0OTRB?key=1191486e602fc8ca8fc90051057262db";
 
     useEffect(() => {
         if (token) {
