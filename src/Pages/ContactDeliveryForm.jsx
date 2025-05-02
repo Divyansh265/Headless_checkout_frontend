@@ -32,7 +32,6 @@ const ContactDeliveryForm = () => {
   return (
     <div className="contact-form">
       <form onSubmit={handleSubmit}>
-
         <div className="email-section">
           <h2>Contact</h2>
           <div className="form-group email">
@@ -57,8 +56,6 @@ const ContactDeliveryForm = () => {
           </div>
         </div>
 
-
-
         <div className="delivery-section">
           <h3>Delivery</h3>
 
@@ -78,14 +75,13 @@ const ContactDeliveryForm = () => {
           </div>
         </div>
 
-
-        <div className="name-fields">
+        <div className="name-fields-section">
           <div className="form-group">
-            <label htmlFor="firstName">First name</label>
             <input
               type="text"
               id="firstName"
               name="firstName"
+              placeholder="firstname"
               value={formData.firstName}
               onChange={handleChange}
               required
@@ -93,11 +89,11 @@ const ContactDeliveryForm = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="lastName">Last name</label>
             <input
               type="text"
               id="lastName"
               name="lastName"
+              placeholder="lastname"
               value={formData.lastName}
               onChange={handleChange}
               required
@@ -105,76 +101,76 @@ const ContactDeliveryForm = () => {
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="address2">Apartment, suite, etc. (optional)</label>
-          <input
-            type="text"
-            id="address2"
-            name="address2"
-            value={formData.address2}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="address-fields">
+        <div className="address-secion">
           <div className="form-group">
-            <label htmlFor="postalCode">Postal code (optional)</label>
             <input
               type="text"
-              id="postalCode"
-              name="postalCode"
-              value={formData.postalCode}
+              id="address"
+              name="address"
+              value={formData.address}
               onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="city">City</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
+              placeholder="Address"
               required
             />
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="governorate">Governorate</label>
-          <input
-            type="text"
-            id="governorate"
-            name="governorate"
-            value={formData.governorate}
-            onChange={handleChange}
-            required
-          />
+        <div className="address-secion-2">
+          <div className="form-group">
+            <input
+              type="text"
+              id="address2"
+              name="address2"
+              value={formData.address2}
+              placeholder="Apartment, suite, etc. (optional)"
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="phone">Phone</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-          />
+        <div className="postalCode-section">
+          <div className="address-section">
+            <div className="address-fields">
+              <div className="form-group">
+                <input
+                  type="text"
+                  id="postalCode"
+                  name="postalCode"
+                  value={formData.postalCode}
+                  placeholder="Postal code (optional)"
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="city-section">
+            <div className="form-group">
+              <input
+                type="text"
+                id="city"
+                name="city"
+                placeholder="City"
+                value={formData.city}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="phone-section">
+          <div className="form-group">
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
         <div className="form-group checkbox">

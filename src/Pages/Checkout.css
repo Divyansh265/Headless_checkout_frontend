@@ -1,13 +1,13 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 
 .checkout--products-container {
     max-width: calc(40% - 10px);
-    width:100%;
+    width: 100%;
     padding: 10px;
     border: 1px solid #eee;
     border-radius: 12px;
@@ -19,6 +19,7 @@
     text-align: left;
     margin-bottom: 20px;
 }
+
 .checkout--products-container .total {
     display: flex;
     justify-content: space-between;
@@ -26,7 +27,7 @@
     font-size: 18px;
 }
 
-.checkout--products-container ul{
+.checkout--products-container ul {
     margin: 0;
     padding: 10px 20px;
     max-height: 255px;
@@ -36,7 +37,7 @@
 .cart-product-data {
     display: flex;
     column-gap: 1rem;
-    width:100%;
+    width: 100%;
 }
 
 .cart-item {
@@ -51,7 +52,7 @@
 .cart-item img {
     margin-right: 15px;
     max-width: 65px;
-} 
+}
 
 .cart-item p {
     margin: 4px 0;
@@ -94,28 +95,31 @@
 
 .checkout-address-form {
     max-width: calc(40% - 10px);
-    width:100%;
+    width: 100%;
 }
 
-.discount-codes input{
+.discount-codes input {
     padding: 12px;
     width: 70%;
     margin-right: 10px;
 }
 
-.discount-apply-btn{
+.discount-apply-btn {
     padding: 12px;
     width: 20%;
 }
+
 p.cart-product-item-quantity {
     text-align: left;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.56);
 }
+
 p.cart-product-item-price {
     text-align: right;
 }
-p.cart-product-variant{
+
+p.cart-product-variant {
     font-size: 12px;
     color: rgba(0, 0, 0, 0.56);
 }
@@ -127,22 +131,23 @@ p.cart-product-variant{
     width: 100%;
 }
 
-.cart-product-item-quantity{
+.cart-product-item-quantity {
     text-align: right;
 }
 
-.checkout-item-count{
+.checkout-item-count {
     display: flex;
     justify-content: space-between;
-    margin-top:15px;
+    margin: 15px 0;
 }
 
 /* form css */
-.email-section .email input{
-    width:100%;
+.email-section .email input {
+    width: 100%;
     padding: 10px;
 }
-.email-section  .form-group.email {
+
+.email-section .form-group.email {
     margin-bottom: 10px;
 }
 
@@ -151,18 +156,117 @@ p.cart-product-variant{
     align-items: center;
 }
 
-.delivery-section select{
-    width:100%;
+.delivery-section select {
+    width: 100%;
     padding: 15px 0 10px 10px;
 }
 
 .delivery-section .form-group {
     position: relative;
 }
+
 .delivery-section label {
     position: absolute;
     left: 12px;
     font-size: 12px;
     top: 4px;
     padding-bottom: 11px;
+}
+
+.name-fields-section {
+    display: flex;
+}
+
+
+.remove-discount-sec {
+    margin-top: 10px;
+}
+
+.remove-discount-sec .remove-icon {
+    color: grey;
+}
+
+
+.remove-discount-sec .remove-icon:hover {
+    color: red;
+    cursor: pointer;
+}
+
+input.discount-field.input-error {
+    border: 1px solid red;
+}
+
+.checkout-discount-count {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.checkout-item-count p {
+    padding: 0;
+    margin: 0;
+}
+
+.checkout-discount-count p {
+    padding: 0;
+    margin: 0;
+}
+
+.remove-discount-sec p {
+    padding: 10px 10px;
+    background: aliceblue;
+    border: 1px solid darkgray;
+    width: max-content;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.name-fields-section {
+    display: grid;
+    margin: 10px 0;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    /* optional: adds space between inputs */
+}
+
+.name-fields-section input {
+    padding: 10px;
+    width: 100%;
+    /* full width within the grid cell */
+    box-sizing: border-box;
+    /* ensures padding doesn't overflow */
+}
+
+.address-secion input#address {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.address-secion-2 input#address2 {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.postalCode-section #postalCode {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.city-section #city {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.phone-section #phone {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.custom-app {
+    background: aliceblue;
 }
