@@ -175,14 +175,14 @@ const Checkout = () => {
                     {discountValue > 0 && (
                         <div className="discount-summary">
                             <p>Discount:</p>
-                            <p>- {cartData.currency} {(discountValue / 100).toFixed(2)}</p>
+                            <p>- {cartData.currency} {(discountValue).toFixed(2)}</p>
                         </div>
                     )}
 
                     <div className="total">
                         <p>Total:</p>
                         <p>
-                            {cartData.currency} {(discountedTotal / 100).toFixed(2)}
+                            {cartData.currency} {(discountedTotal).toFixed(2)}
                         </p>
                     </div>
                 </div>
