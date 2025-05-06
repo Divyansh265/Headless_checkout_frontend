@@ -39,9 +39,8 @@ const Checkout = () => {
     };
 
     const location = useLocation();
-    // const token = new URLSearchParams(location.search).get('token');
-    const token =
-        "Z2NwLXVzLWVhc3QxOjAxSlRKNEdQR1NLOTMxOEQ4QjZSNzk2ODhQ?key=39396c1814117dafaa1a9cef6621ebcd";
+    const token = new URLSearchParams(location.search).get('token');
+    // const token ="Z2NwLXVzLWVhc3QxOjAxSlRKNEdQR1NLOTMxOEQ4QjZSNzk2ODhQ?key=39396c1814117dafaa1a9cef6621ebcd";
 
     useEffect(() => {
         if (token) {
