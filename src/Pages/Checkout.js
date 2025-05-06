@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import "./Checkout.css";
 import ContactDeliveryForm from "./ContactDeliveryForm";
@@ -9,9 +9,13 @@ const Checkout = () => {
     const [orderStatus, setOrderStatus] = useState(null);
     const [discountCode, setDiscountCode] = useState("");
     const [discountStatus, setDiscountStatus] = useState(null);
-    const [discountValue, setDiscountValue] = useState(0);
+    const [discountValue, setDiscountValue] = useState(null);
     const [discountType, setDiscountType] = useState(null);
     const [actualDiscount, setActualDiscount] = useState(0);
+    const [discountError, setDiscountError] = useState(false);
+    const [discountTitle, setDiscountTitle] = useState(null);
+
+
     const [formData, setFormData] = useState({
         newsOffers: false,
         country: "Kuwait",
@@ -25,9 +29,19 @@ const Checkout = () => {
         saveInfo: false,
         email: "", // you missed email in child form state
     });
+
+
+    // remmove discount
+    const removeDiscount = () => {
+        setDiscountValue(null);
+        setDiscountStatus(null);
+        setDiscountCode("");
+    };
+
     const location = useLocation();
-    const token = new URLSearchParams(location.search).get('token');
-    // const token = "Z2NwLXVzLWVhc3QxOjAxSlQ3U1A5QldHMTM3OVNaVllKV0E0OTRB?key=1191486e602fc8ca8fc90051057262db";
+    // const token = new URLSearchParams(location.search).get('token');
+    const token =
+        "Z2NwLXVzLWVhc3QxOjAxSlRKNEdQR1NLOTMxOEQ4QjZSNzk2ODhQ?key=39396c1814117dafaa1a9cef6621ebcd";
 
     useEffect(() => {
         if (token) {
@@ -41,6 +55,8 @@ const Checkout = () => {
                     setCartData(data);
                 } catch (error) {
                     console.error("Error fetching cart data:", error);
+                    setDiscountStatus("Error applying discount");
+
                 } finally {
                     setLoading(false);
                 }
@@ -50,43 +66,58 @@ const Checkout = () => {
         }
     }, [token]);
 
-
     //apply discount
     const handleApplyDiscount = async () => {
         try {
-            const response = await fetch("https://headless-checkout-backend.onrender.com/api/apply-discount", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ code: discountCode }),
-            });
+            const response = await fetch(
+                "https://headless-checkout-backend.onrender.com/api/apply-discount",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ code: discountCode }),
+                }
+            );
             const result = await response.json();
             console.log("Discount price rule :", result.priceRule);
+            setDiscountValue(result.priceRule.value);
+            setDiscountTitle(result.priceRule.title);
 
-            if (response.ok) {
+            if (response.ok && result?.priceRule) {
                 setDiscountStatus(`Discount applied: ${result.priceRule.title}`);
                 setDiscountType(result.priceRule.value_type);
+                setDiscountValue(result.priceRule.value);
+                setDiscountTitle(result.priceRule.title);
+                setDiscountStatus(result.priceRule.title);
+                setDiscountError(false);
                 if (result.priceRule.value_type === "fixed_amount") {
                     setDiscountValue(Math.abs(parseFloat(result.priceRule.value)) * 100);
-                    setActualDiscount((Math.abs(parseFloat(result.priceRule.value)) * 100) / 100);
-
+                    setActualDiscount(
+                        (Math.abs(parseFloat(result.priceRule.value)) * 100) / 100
+                    );
                 } else if (result.priceRule.value_type === "percentage") {
-                    const discountPercentage = Math.abs(parseFloat(result.priceRule.value)); // e.g., 10 for 10%
-                    const discountInCents = Math.round((cartData.total_price * discountPercentage) / 100);
+                    const discountPercentage = Math.abs(
+                        parseFloat(result.priceRule.value)
+                    ); // e.g., 10 for 10%
+                    const discountInCents = Math.round(
+                        (cartData.total_price * discountPercentage) / 100
+                    );
                     setDiscountValue(discountInCents);
                     setActualDiscount(discountPercentage);
-                    setDiscountStatus(`Discount applied: ${discountPercentage}% off`);
+                    setDiscountStatus(`${result.priceRule.title}`);
                 }
-
             } else {
                 setDiscountStatus(`Failed: ${result.error}`);
                 setDiscountValue(0);
+                setDiscountStatus(result.error || "Invalid code");
+                setDiscountError(true);
             }
         } catch (error) {
             console.error("Error applying discount:", error);
             setDiscountStatus("Error applying discount");
             setDiscountValue(0);
+            setDiscountError(true);
         }
     };
     console.log("actualDiscount", actualDiscount);
@@ -102,7 +133,7 @@ const Checkout = () => {
                     value: actualDiscount,
                     type: discountType,
                 },
-                customer: formData,  // 👈 include formData in your order payload
+                customer: formData, // 👈 include formData in your order payload
             };
 
             const response = await fetch(
@@ -119,30 +150,32 @@ const Checkout = () => {
             if (response.ok) {
                 setOrderStatus(`Order created! ID: ${result.order.id}`);
             } else {
-                setOrderStatus(`Order creation failed: ${result.error || "Unknown error"}`);
+                setOrderStatus(
+                    `Order creation failed: ${result.error || "Unknown error"}`
+                );
             }
         } catch (error) {
             console.error("Error placing order:", error);
             setOrderStatus("Failed to place order");
+
         }
     };
 
     if (loading) return <p>Loading cart...</p>;
     if (!cartData) return <p>No cart found.</p>;
 
-    const discountedTotal = cartData.total_price - (discountValue);
+    const discountedTotal = cartData.total_price - discountValue;
 
     return (
         <div className="checkout-page">
             <div className="checkout-address-form">
                 <ContactDeliveryForm formData={formData} setFormData={setFormData} />
-
             </div>
 
             <div className="checkout--products-container">
                 <h2>Checkout</h2>
 
-                <ul>
+                <ul >
                     {cartData.items.map((item) => (
                         <li key={item.id} className="cart-item">
                             <img
@@ -160,7 +193,10 @@ const Checkout = () => {
                                     <p className="cart-product-variant">{item.variant_title}</p>
                                 </div>
                                 <div>
-                                    <p className="cart-product-item-price"> {cartData.currency} {(item.price / 100).toFixed(2)} </p>
+                                    <p className="cart-product-item-price">
+                                        {" "}
+                                        {cartData.currency} {(item.price / 100).toFixed(2)}{" "}
+                                    </p>
                                 </div>
                             </div>
                         </li>
@@ -169,28 +205,46 @@ const Checkout = () => {
 
                 <div className="discount-codes">
                     <input
-                        className="discount-feild"
+                        className={`discount-field ${discountError ? "input-error" : ""}`}
                         type="text"
                         placeholder="Discount code or gift card"
                         value={discountCode}
                         onChange={(e) => setDiscountCode(e.target.value)}
                     />
+
                     <button onClick={handleApplyDiscount} className="discount-apply-btn">
                         Apply
                     </button>
-                    {discountStatus && <p>{discountStatus}</p>}
+
+                    <div className="remove-discount-sec">
+                        {discountError
+                            ? <p style={{ 'color': 'red' }} >Invalid Code   </p>
+                            : discountStatus && (
+                                <p>
+                                    {discountStatus} {" "}
+                                    <span className="remove-icon" onClick={removeDiscount}>
+                                        ✖
+                                    </span>
+                                </p>
+                            )}
+                        {/* {discountStatus && <p>{discountStatus}</p>} */}
+                    </div>
                 </div>
 
                 <div className="checkout-summary">
                     <div className="checkout-item-count">
                         <p>Subtotal ({cartData.item_count} items):</p>
-                        <p>{cartData.currency} {(cartData.total_price / 100).toFixed(2)}</p>
+                        <p>
+                            {cartData.currency} {(cartData.total_price / 100).toFixed(2)}
+                        </p>
                     </div>
 
                     {discountValue > 0 && (
                         <div className="discount-summary">
                             <p>Discount:</p>
-                            <p>- {cartData.currency} {(discountValue / 100).toFixed(2)}</p>
+                            <p>
+                                - {cartData.currency} {(discountValue / 100).toFixed(2)}
+                            </p>
                         </div>
                     )}
 

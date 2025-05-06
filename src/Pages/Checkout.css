@@ -4,7 +4,6 @@
     box-sizing: border-box;
 }
 
-
 .checkout--products-container {
     max-width: calc(40% - 10px);
     width: 100%;
@@ -12,7 +11,7 @@
     border: 1px solid #eee;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .checkout--products-container h2 {
@@ -82,8 +81,6 @@
     font-weight: bold;
     color: #333;
 }
-
-
 
 /*  */
 .checkout-page {
@@ -177,15 +174,14 @@ p.cart-product-variant {
     display: flex;
 }
 
-
 .remove-discount-sec {
     margin-top: 10px;
 }
 
 .remove-discount-sec .remove-icon {
     color: grey;
+    margin-left: 6px;
 }
-
 
 .remove-discount-sec .remove-icon:hover {
     color: red;
@@ -269,4 +265,31 @@ input.discount-field.input-error {
 
 .custom-app {
     background: aliceblue;
+}
+
+/*  */
+.discount-summary {
+    display: flex;
+    justify-content: space-between;
+}
+
+.address-sevtion-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.checkout-address-form {
+    position: relative;
+}
+
+.checkout-address-form::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 108%;
+    width: 1px;
+    height: 100%;
+    background-color: #ccc;
 }

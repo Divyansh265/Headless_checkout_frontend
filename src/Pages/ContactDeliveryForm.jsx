@@ -1,6 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ContactDeliveryForm = ({ formData, setFormData }) => {
+const ContactDeliveryForm = () => {
+  const [formData, setFormData] = useState({
+    newsOffers: false,
+    country: "Kuwait",
+    firstName: "",
+    lastName: "",
+    address: "",
+    address2: "",
+    postalCode: "",
+    city: "",
+    governorate: "",
+    phone: "",
+    saveInfo: false,
+  });
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -11,6 +25,7 @@ const ContactDeliveryForm = ({ formData, setFormData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Handle form submission here
     console.log(formData);
   };
 
@@ -25,9 +40,8 @@ const ContactDeliveryForm = ({ formData, setFormData }) => {
               id="email"
               name="email"
               placeholder="Email"
-              value={formData.email}
+              checked={formData.newsOffers}
               onChange={handleChange}
-              required
             />
           </div>
           <div className="form-group checkbox">
@@ -56,6 +70,7 @@ const ContactDeliveryForm = ({ formData, setFormData }) => {
               <option value="Kuwait">Kuwait</option>
               <option value="Saudi Arabia">Saudi Arabia</option>
               <option value="UAE">United Arab Emirates</option>
+              {/* Add more countries as needed */}
             </select>
           </div>
         </div>
@@ -66,7 +81,7 @@ const ContactDeliveryForm = ({ formData, setFormData }) => {
               type="text"
               id="firstName"
               name="firstName"
-              placeholder="First name"
+              placeholder="Firstname"
               value={formData.firstName}
               onChange={handleChange}
               required
@@ -78,7 +93,7 @@ const ContactDeliveryForm = ({ formData, setFormData }) => {
               type="text"
               id="lastName"
               name="lastName"
-              placeholder="Last name"
+              placeholder="Lastname"
               value={formData.lastName}
               onChange={handleChange}
               required
@@ -113,46 +128,55 @@ const ContactDeliveryForm = ({ formData, setFormData }) => {
           </div>
         </div>
 
-        <div className="postalCode-section">
-          <div className="form-group">
-            <input
-              type="text"
-              id="postalCode"
-              name="postalCode"
-              value={formData.postalCode}
-              placeholder="Postal code (optional)"
-              onChange={handleChange}
-            />
+        <div class="address-sevtion-3">
+          <div className="postalCode-section">
+            <div className="address-section">
+              <div className="address-fields">
+                <div className="form-group">
+                  <input
+                    type="text"
+                    id="postalCode"
+                    name="postalCode"
+                    value={formData.postalCode}
+                    placeholder="Postal code (optional)"
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="form-group">
-            <input
-              type="text"
-              id="city"
-              name="city"
-              placeholder="City"
-              value={formData.city}
-              onChange={handleChange}
-              required
-            />
+          <div>
+            <div className="city-section">
+              <div className="form-group">
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  placeholder="City"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="phone-section">
+            <div className="form-group">
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
 
         </div>
-
-        <div className="phone-section">
-          <div className="form-group">
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              placeholder="Phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        </div>
-
         <div className="form-group checkbox">
           <input
             type="checkbox"
@@ -164,9 +188,7 @@ const ContactDeliveryForm = ({ formData, setFormData }) => {
           <label htmlFor="saveInfo">Save this information for next time</label>
         </div>
 
-        <button type="submit" className="submit-btn">
-          Submit
-        </button>
+
       </form>
     </div>
   );
